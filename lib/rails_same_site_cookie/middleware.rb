@@ -11,17 +11,23 @@ module RailsSameSiteCookie
 
     def call(env)
       status, headers, body = @app.call(env)
-
+      puts "STATUS", status
+      puts "HEADERS", headers
+      puts "BODY", body
       regex = RailsSameSiteCookie.configuration.user_agent_regex
-      if headers['Set-Cookie'].present? and (regex.nil? or regex.match(env['HTTP_USER_AGENT']))
+      
+      if headers['Set-Cookie'].present? 
+#         and (regex.nil? or regex.match(env['HTTP_USER_AGENT']))
         parser = UserAgentChecker.new(env['HTTP_USER_AGENT'])
+        puts "PARSER", parser
         if parser.send_same_site_none?
           cookies = headers['Set-Cookie'].split(COOKIE_SEPARATOR)
           ssl = Rack::Request.new(env).ssl?
 
           cookies.each do |cookie|
             next if cookie.blank?
-            if ssl and not cookie =~ /;\s*secure/i
+#             if ssl and not cookie =~ /;\s*secure/i
+             if not cookie =~ /;\s*secure/i
               cookie << '; Secure'
             end
 
@@ -32,6 +38,7 @@ module RailsSameSiteCookie
           end
 
           headers['Set-Cookie'] = cookies.join(COOKIE_SEPARATOR)
+          puts "HEADERS RESULT", headers
         end
       end
 
