@@ -36,12 +36,12 @@ module RailsSameSiteCookie
 
     def is_ios_version?(major)
 #       user_agent.os&.family == 'iOS' and user_agent.os&.version&.major == major
-      user_agent.os.family == 'iOS' and user_agent.os.version&.major == major
+      user_agent.os.family == 'iOS' and user_agent.os.version.major == major
     end
 
     def is_mac_osx_version?(major,minor)
 #       user_agent.os&.family == 'Mac OS X' and user_agent.os&.version&.major == major and user_agent.os&.version&.minor == minor
-      user_agent.os.family == 'Mac OS X' and user_agent.os.version&.major == major and user_agent.os.version&.minor == minor
+      user_agent.os.family == 'Mac OS X' and user_agent.os.version.major == major and user_agent.os.version.minor == minor
     end
 
     def is_safari?
