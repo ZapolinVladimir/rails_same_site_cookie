@@ -13,11 +13,11 @@ module RailsSameSiteCookie
       status, headers, body = @app.call(env)
       puts "STATUS", status
       puts "HEADERS", headers
-      puts "BODY", body.inspect
-      regex = RailsSameSiteCookie.configuration.user_agent_regex
-      if headers['Location'].present? && headers['Location'].include?('admin/oauth/authorize')
 
-      else
+      regex = RailsSameSiteCookie.configuration.user_agent_regex
+#       if headers['Location'].present? && headers['Location'].include?('admin/oauth/authorize')
+
+#       else
         if headers['Set-Cookie'].present? 
   #         and (regex.nil? or regex.match(env['HTTP_USER_AGENT']))
           parser = UserAgentChecker.new(env['HTTP_USER_AGENT'])
@@ -43,7 +43,7 @@ module RailsSameSiteCookie
             puts "HEADERS RESULT", headers
           end
         end
-      end
+#       end
 
 
       [status, headers, body]
